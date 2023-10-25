@@ -9,16 +9,17 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-west-2"
+  region = "us-east-2"
 }
 
 resource "aws_instance" "app_server" {
-  ami                         = "ami-830c94e3"
+  ami                         = "ami-09e03e6bd1ff7ec01"
   instance_type               = "t2.micro"
   vpc_security_group_ids      = [aws_security_group.instance.id]
+  key_name                    = aws_key_pair.ssh_key.key_name
   user_data                   = <<-EOF
               #!/bin/bash
-              echo "Hello, World" > index.html              
+              curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
               nohup busybox httpd -f -p ${var.server_port} &
               EOF
   user_data_replace_on_change = true
@@ -30,11 +31,34 @@ resource "aws_instance" "app_server" {
 resource "aws_security_group" "instance" {
   name = "terraform-example-instance"
   ingress {
+    from_port   = var.ssh_port
+    to_port     = var.ssh_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
     from_port   = var.server_port
     to_port     = var.server_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+}
+
+resource "aws_key_pair" "ssh_key" {
+  key_name   = "ssh_key"
+  public_key = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDegRSIoiY/42/xYF6ZY0OzJ/HJmA+6Zu46b2kOPwliPFdDAjkYf1gs7yv9dDZSXYhdJImnRrvAhujeaPqWIzB6+TFO4TYcwunpnKHGwGUrg0sH8P9k5Y6PG4xJyqR+G4dBYfYoykWmtVTu2/teD0f61cZtyxxKQ6/esvFjsrnLJ8bwTC5zn78bzoEITmVe6SZKXQU9EBROZWtuEvZEbDRZ8JLcI6lMRM+H/+NzBVAeAbh8O1i16W4iSKQYioEeeJuO1tFGpjBbu5/0wICdfIJCFuT6CSRLRxYJpHrNGtzEx2KMUjokCRNWmRMELl5Dgte4GIRYA+a228hXFgC4NtlS+RG3C2LP+zTyC9d2RmyRN2RiNznRcGHZZhWwmSiTuPmV7fbI+gv/Erlw5qNyJFztColNJrtuO18bXhsW1j/pOCusp5OikY5wOgiaXM3K2yH/r7XL72j8f31JB1AWMZK2yZTwy0bDeW3ufLAEZv+LICAmuIZG4IjyDrbMiR7VKVs= kutty@legion"
+}
+
+variable "ssh_port" {
+  description = "ssh key for local machine"
+  type        = number
+  default     = 22
 }
 
 variable "server_port" {
