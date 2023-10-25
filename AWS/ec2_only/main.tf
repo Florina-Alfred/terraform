@@ -9,16 +9,16 @@ terraform {
 }
 
 provider "aws" {
-  region  = "us-west-2"
+  region = "us-west-2"
 }
 
 resource "aws_instance" "app_server" {
-  ami           = "ami-830c94e3"
-  instance_type = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.instance.id]
-  user_data = <<-EOF
+  ami                         = "ami-830c94e3"
+  instance_type               = "t2.micro"
+  vpc_security_group_ids      = [aws_security_group.instance.id]
+  user_data                   = <<-EOF
               #!/bin/bash
-              echo "Hello, Mom!" > index.html
+              echo "Hello, World" > index.html              
               nohup busybox httpd -f -p ${var.server_port} &
               EOF
   user_data_replace_on_change = true
