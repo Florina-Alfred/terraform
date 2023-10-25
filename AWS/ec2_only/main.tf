@@ -18,7 +18,11 @@ resource "aws_instance" "app_server" {
   vpc_security_group_ids      = [aws_security_group.instance.id]
   user_data                   = <<-EOF
               #!/bin/bash
+<<<<<<< HEAD
               echo "Hello, World" > index.html              
+=======
+              curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
+>>>>>>> 8b48bf757e77e4a13e3d17583bd4cb7694ad2805
               nohup busybox httpd -f -p ${var.server_port} &
               EOF
   user_data_replace_on_change = true
