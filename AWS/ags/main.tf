@@ -46,7 +46,7 @@ resource "aws_launch_configuration" "example" {
 
   user_data = <<-EOF
               #!/bin/bash
-              echo "Hello, Mom" > index.html
+              curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
               nohup busybox httpd -f -p ${var.server_port} &
               EOF
   lifecycle {
