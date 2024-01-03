@@ -61,24 +61,6 @@ resource "aws_key_pair" "ssh_key" {
   public_key = var.ssh_key
 }
 
-variable "ssh_port" {
-  description = "ssh key for local machine"
-  type        = number
-  default     = 22
-}
-
-variable "wg_port" {
-  description = "The port the wg server will use for tcp requests"
-  type        = number
-  default     = 51821
-}
-
-variable "server_port" {
-  description = "The port the server will use for HTTP requests"
-  type        = number
-  default     = 8080
-}
-
 output "instance_id" {
   description = "ID of the EC2 instance"
   value       = aws_instance.app_server.id
