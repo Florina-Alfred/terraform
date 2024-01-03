@@ -37,6 +37,12 @@ resource "aws_security_group" "instance" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
+    from_port   = var.wg_port
+    to_port     = var.wg_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
     from_port   = var.server_port
     to_port     = var.server_port
     protocol    = "tcp"
@@ -59,6 +65,12 @@ variable "ssh_port" {
   description = "ssh key for local machine"
   type        = number
   default     = 22
+}
+
+variable "wg_port" {
+  description = "The port the wg server will use for tcp requests"
+  type        = number
+  default     = 51821
 }
 
 variable "server_port" {
