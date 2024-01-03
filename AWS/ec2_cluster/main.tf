@@ -15,7 +15,7 @@ provider "aws" {
 resource "aws_instance" "master_server" {
   ami                         = "ami-09e03e6bd1ff7ec01"
   instance_type               = "t2.micro"
-  vpc_security_group_ids      = [aws_security_group.instance.id]
+  #vpc_security_group_ids      = [aws_security_group.instance.id]
 
   network_interface {
     network_interface_id = aws_network_interface.master_network_interface.id
@@ -37,7 +37,7 @@ resource "aws_instance" "master_server" {
 resource "aws_instance" "worker_1_server" {
   ami                         = "ami-09e03e6bd1ff7ec01"
   instance_type               = "t2.micro"
-  vpc_security_group_ids      = [aws_security_group.instance.id]
+  #vpc_security_group_ids      = [aws_security_group.instance.id]
   network_interface {
     network_interface_id = aws_network_interface.worker_1_network_interface.id
     device_index         = 0
@@ -57,7 +57,7 @@ resource "aws_instance" "worker_1_server" {
 resource "aws_instance" "worker_2_server" {
   ami                         = "ami-09e03e6bd1ff7ec01"
   instance_type               = "t2.micro"
-  vpc_security_group_ids      = [aws_security_group.instance.id]
+  #vpc_security_group_ids      = [aws_security_group.instance.id]
   network_interface {
     network_interface_id = aws_network_interface.worker_2_network_interface.id
     device_index         = 0
@@ -104,7 +104,7 @@ resource "aws_network_interface" "master_network_interface" {
 resource "aws_network_interface" "worker_1_network_interface" {
   subnet_id   = aws_subnet.cluster_subnet.id
   private_ips = ["172.16.10.102"]
-
+  security_groups = ["${aws_security_group.instance.id}"]
   tags = {
     Name = "terraform_primary_network_interface"
   }
@@ -113,7 +113,7 @@ resource "aws_network_interface" "worker_1_network_interface" {
 resource "aws_network_interface" "worker_2_network_interface" {
   subnet_id   = aws_subnet.cluster_subnet.id
   private_ips = ["172.16.10.103"]
-
+  security_groups = ["${aws_security_group.instance.id}"]
   tags = {
     Name = "terraform_primary_network_interface"
   }
@@ -121,6 +121,7 @@ resource "aws_network_interface" "worker_2_network_interface" {
 
 resource "aws_security_group" "instance" {
   name = "terraform-example-instance"
+  vpc_id = aws_vpc.cluster_vpc.id
   ingress {
     from_port   = var.ssh_port
     to_port     = var.ssh_port
