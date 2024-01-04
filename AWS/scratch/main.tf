@@ -62,7 +62,7 @@ resource "aws_route_table_association" "cluster_rt_association" {
   route_table_id = aws_route_table.cluster_public_route_table.id
 }
 
-resource "aws_security_group" "instance" {
+resource "aws_security_group" "cluster_security_group" {
   name        = "terraform-example-instance"
   description = "Server+SSH+WG+Internet (Managed by Terraform)"
   vpc_id      = aws_vpc.cluster_vpc.id
@@ -75,6 +75,12 @@ resource "aws_security_group" "instance" {
   ingress {
     from_port   = var.wg_port
     to_port     = var.wg_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = var.kubectl_port
+    to_port     = var.kubectl_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -102,21 +108,57 @@ resource "aws_security_group" "instance" {
 #   }
 # }
 
-resource "aws_instance" "app_server" {
-  ami                    = "ami-09e03e6bd1ff7ec01"
-  instance_type          = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.instance.id]
-  subnet_id              = aws_subnet.cluster_public_subnet.id
-  key_name               = aws_key_pair.ssh_key.key_name
-  # private_ip                  = "172.31.10.101"
+
+resource "aws_instance" "master_server" {
+  ami                         = "ami-09e03e6bd1ff7ec01"
+  instance_type               = "t2.micro"
+  vpc_security_group_ids      = [aws_security_group.cluster_security_group.id]
+  subnet_id                   = aws_subnet.cluster_public_subnet.id
+  key_name                    = aws_key_pair.ssh_key.key_name
+  private_ip                  = "10.0.10.101"
   user_data                   = <<-EOF
-#!/bin/bash
-  curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
-  nohup busybox httpd -f -p ${var.server_port} &
-  EOF
+                                #!/bin/bash
+                                curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
+                                nohup busybox httpd -f -p ${var.server_port} &
+                                EOF
   user_data_replace_on_change = true
   tags = {
     Name = var.master_instance_name
+  }
+}
+
+resource "aws_instance" "worker_1_server" {
+  ami                         = "ami-09e03e6bd1ff7ec01"
+  instance_type               = "t2.micro"
+  vpc_security_group_ids      = [aws_security_group.cluster_security_group.id]
+  subnet_id                   = aws_subnet.cluster_public_subnet.id
+  key_name                    = aws_key_pair.ssh_key.key_name
+  private_ip                  = "10.0.10.102"
+  user_data                   = <<-EOF
+                                #!/bin/bash
+                                curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
+                                nohup busybox httpd -f -p ${var.server_port} &
+                                EOF
+  user_data_replace_on_change = true
+  tags = {
+    Name = var.worker_1_instance_name
+  }
+}
+resource "aws_instance" "worker_2_server" {
+  ami                         = "ami-09e03e6bd1ff7ec01"
+  instance_type               = "t2.micro"
+  vpc_security_group_ids      = [aws_security_group.cluster_security_group.id]
+  subnet_id                   = aws_subnet.cluster_public_subnet.id
+  key_name                    = aws_key_pair.ssh_key.key_name
+  private_ip                  = "10.0.10.103"
+  user_data                   = <<-EOF
+                                #!/bin/bash
+                                curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
+                                nohup busybox httpd -f -p ${var.server_port} &
+                                EOF
+  user_data_replace_on_change = true
+  tags = {
+    Name = var.worker_2_instance_name
   }
 }
 
@@ -127,11 +169,11 @@ resource "aws_key_pair" "ssh_key" {
 
 output "instance_id" {
   description = "ID of the EC2 instance"
-  value       = aws_instance.app_server.id
+  value       = aws_instance.master_server.id
 }
 
 output "instance_public_ip" {
   description = "Public IP address of the EC2 instance"
-  value       = aws_instance.app_server.public_ip
+  value       = aws_instance.master_server.public_ip
 }
 
