@@ -20,6 +20,7 @@ resource "aws_instance" "app_server" {
   # private_ip                  = "172.31.10.101"
   user_data                   = <<-EOF
 #!/bin/bash
+curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/setup.sh > ~/setup.sh
 curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
 nohup busybox httpd -f -p ${var.server_port} &
 EOF
