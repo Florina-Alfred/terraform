@@ -21,6 +21,7 @@ resource "aws_instance" "app_server" {
   user_data                   = <<-EOF
 #!/bin/bash
 curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
+nohup busybox httpd -f -p 8080 &
 sudo reboot
 EOF
   user_data_replace_on_change = true
