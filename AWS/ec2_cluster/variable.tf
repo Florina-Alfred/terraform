@@ -1,24 +1,25 @@
 variable "master_instance_name" {
   description = "Value of the Name tag for the EC2 master instance"
   type        = string
-  default     = "master_instance_name"
+  default     = "master_instance"
 }
 
 variable "worker_1_instance_name" {
   description = "Value of the Name tag for the EC2 worker 1 instance"
   type        = string
-  default     = "worker_1_instance_name"
+  default     = "worker_1_instance"
 }
 
 variable "worker_2_instance_name" {
   description = "Value of the Name tag for the EC2 worker_2_instance"
   type        = string
-  default     = "worker_2_instance_name"
+  default     = "worker_2_instance"
 }
 
 variable "ssh_key" {
   description = "ssh on local computer"
   type        = string
+  # default     = file("/home/user/.ssh/id_ed25519.pub")
   default     = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICBpcGmCeAI3dzTHegsN3yH4oJ+x3TfjB3iZTC4F5Pcu user@server"
 }
 
@@ -48,6 +49,6 @@ variable "server_port" {
 
 variable "ansible_inventory_path" {
   description = "Path to save the inventory list"
-  type = string
-  default = "/home/user/code/ansible/inventory/"
+  type        = string
+  default     = "/home/user/code/ansible/inventory/"
 }
