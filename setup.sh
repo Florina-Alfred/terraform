@@ -1,7 +1,8 @@
 # refresh d
 apt update
 # apt upgrade -y
-NEEDRESTART_MODE=a apt-get dist-upgrade --yes
+# NEEDRESTART_MODE=a apt-get dist-upgrade --yes
+DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y
 apt autoremove -y && apt clean -y
 
 # install necessary tools
