@@ -6,7 +6,7 @@ DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y
 apt autoremove -y && apt clean -y
 
 # install necessary tools
-DEBIAN_FRONTEND=noninteractive apt install -y git curl wget vim neofetch
+DEBIAN_FRONTEND=noninteractive apt install -y git curl wget vim neofetch tree
 
 
 # get 
