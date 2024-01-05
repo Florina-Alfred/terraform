@@ -23,8 +23,10 @@ resource "aws_instance" "app_server" {
 curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/setup.sh > ~/setup.sh
 sudo bash ~/setup.sh
 sudo hostnamectl set-hostname ${var.instance_name}
+curl -fsSL https://test.docker.com | bash
+sudo usermod -aG docker $USER
 curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
-nohup busybox httpd -f -p ${var.server_port} &
+# nohup busybox httpd -f -p ${var.server_port} &
 sudo reboot
 EOF
   user_data_replace_on_change = true
