@@ -17,7 +17,7 @@ resource "aws_instance" "app_server" {
   instance_type          = "t2.micro"
   vpc_security_group_ids = [aws_security_group.instance.id]
   key_name               = aws_key_pair.ssh_key.key_name
-  # private_ip                  = "172.31.10.101"
+  private_ip                  = "172.31.10.101"
   user_data                   = <<-EOF
 #!/bin/bash
 curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/setup.sh > ~/setup.sh
