@@ -22,9 +22,10 @@ resource "aws_instance" "app_server" {
 #!/bin/bash
 curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/setup.sh > ~/setup.sh
 sudo bash ~/setup.sh
-sudo reboot
+sudo hostnamectl set-hostname ${var.instance_name}
 curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
 nohup busybox httpd -f -p ${var.server_port} &
+sudo reboot
 EOF
   user_data_replace_on_change = true
   tags = {
