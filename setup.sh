@@ -1,6 +1,7 @@
 # refresh d
 apt update
-apt upgrade -y
+# apt upgrade -y
+NEEDRESTART_MODE=a apt-get dist-upgrade --yes
 apt autoremove -y && apt clean -y
 
 # install necessary tools
