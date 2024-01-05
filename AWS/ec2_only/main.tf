@@ -13,10 +13,10 @@ provider "aws" {
 }
 
 resource "aws_instance" "app_server" {
-  ami                    = "ami-09e03e6bd1ff7ec01"
-  instance_type          = "t2.micro"
-  vpc_security_group_ids = [aws_security_group.instance.id]
-  key_name               = aws_key_pair.ssh_key.key_name
+  ami                         = "ami-09e03e6bd1ff7ec01"
+  instance_type               = "t2.micro"
+  vpc_security_group_ids      = [aws_security_group.instance.id]
+  key_name                    = aws_key_pair.ssh_key.key_name
   private_ip                  = "172.31.10.101"
   user_data                   = <<-EOF
 #!/bin/bash
@@ -25,8 +25,9 @@ sudo bash ~/setup.sh
 sudo hostnamectl set-hostname ${var.instance_name}
 curl -fsSL https://test.docker.com | bash
 sudo usermod -aG docker $USER
+curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --write-kubeconfig-mode 644 --node-ip 172.31.10.101 --node-external-ip 172.31.10.101 --flannel-iface enX0 --token QnJpbmdpbmcgaW5kdXN0cmlhbCBzYWZldHkgYW5kIGF1dG9tYXRpb24gdG8gdGhlIGVkZ2Uu" sh -
 curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
-# nohup busybox httpd -f -p ${var.server_port} &
 sudo reboot
 EOF
   user_data_replace_on_change = true
@@ -50,8 +51,8 @@ resource "aws_security_group" "instance" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
-    from_port   = var.server_port
-    to_port     = var.server_port
+    from_port   = var.kubectl_port
+    to_port     = var.kubectl_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

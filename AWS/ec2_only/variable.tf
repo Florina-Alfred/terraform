@@ -22,8 +22,8 @@ variable "wg_port" {
   default     = 51821
 }
 
-variable "server_port" {
+variable "kubectl_port" {
   description = "The port the server will use for HTTP requests"
   type        = number
-  default     = 8080
+  default     = 6443
 }
