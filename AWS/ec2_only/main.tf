@@ -21,11 +21,11 @@ resource "aws_instance" "app_server" {
   user_data                   = <<-EOF
 #!/bin/bash
 sudo hostnamectl set-hostname ${var.instance_name}
-#curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/setup.sh > setup.sh
-#sudo bash setup.sh
-#sudo reboot
-curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
-nohup busybox httpd -f -p 8080 &
+curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/unix/setup.sh > setup.sh
+sudo bash setup.sh
+sudo reboot
+# curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
+# nohup busybox httpd -f -p 8080 &
 EOF
   user_data_replace_on_change = true
   tags = {
@@ -86,6 +86,12 @@ resource "aws_security_group" "instance" {
   ingress {
     from_port   = var.lb_traefik_port
     to_port     = var.lb_traefik_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = var.tester
+    to_port     = var.tester
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }

@@ -64,3 +64,10 @@ variable "lb_traefik_port" {
   default     = 9000
 }
 
+
+variable "tester" {
+    description = "tester"
+        type        = number
+        default     = 1232
+}
+
