@@ -23,27 +23,31 @@ export server_name=$(hostname)
 if [[ $(hostname) == master1* ]]
 then
     echo "Inital Master"
-    curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --write-kubeconfig-mode 644 --node-ip 172.31.24.101 --node-external-ip 172.31.24.101 --flannel-iface enX0 --token QnJpbmdpbmcgaW5kdXN0cmlhbCBzYWZldHkgYW5kIGF1dG9tYXRpb24gdG8gdGhlIGVkZ2Uu" sh -
+    
+    # install k3s
+    curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --write-kubeconfig-mode 644 --node-ip 10.0.10.101 --node-external-ip 10.0.10.101 --flannel-iface enX0 --token QnJpbmdpbmcgaW5kdXN0cmlhbCBzYWZldHkgYW5kIGF1dG9tYXRpb24gdG8gdGhlIGVkZ2Uu" sh -
     mkdir ~/.kube
     cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+
+    # install helm
+    curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+    helm repo add prometheus-repo https://prometheus-community.github.io/helm-charts
+    helm repo update
+    helm install monitoring prometheus-repo/kube-prometheus-stack
+
+    # install argocd
+    kubectl create namespace argocd
+    kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+    curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+    sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
+    rm argocd-linux-amd64
+
 elif [[ $(hostname) == master* ]]
 then
     echo "Additional Master"
 else
     echo "Worker"
+    curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="agent --server https://10.0.10.101:6443 --token QnJpbmdpbmcgaW5kdXN0cmlhbCBzYWZldHkgYW5kIGF1dG9tYXRpb24gdG8gdGhlIGVkZ2Uu --node-ip 10.0.10.102 --node-external-ip 10.0.10.102 --flannel-iface enX0" sh -
 fi
-
-# install helm
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
-helm repo add prometheus-repo https://prometheus-community.github.io/helm-charts
-helm repo update
-helm install monitoring prometheus-repo/kube-prometheus-stack
-
-# install argocd
-kubectl create namespace argocd
-kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
-curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-sudo install -m 555 argocd-linux-amd64 /usr/local/bin/argocd
-rm argocd-linux-amd64
 
 
