@@ -1,0 +1,17 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: grafana-stack-ingress-dashboard
+  namespace: default
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    - match: Host(``) && PathPrefix(`/`) 
+      kind: Rule
+      services:
+        - name: prometheus-stack-grafana
+          port: http-web
+---
