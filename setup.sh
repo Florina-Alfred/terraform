@@ -20,7 +20,7 @@ sudo usermod -aG docker $USER
 # install K3S Master
 export server_name=$(hostname)
 
-if [[ hostname == master1* ]]
+if [[ $(hostname) == master1* ]]
 then
     echo "Inital Master"
     curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --write-kubeconfig-mode 644 --node-ip 172.31.24.101 --node-external-ip 172.31.24.101 --flannel-iface enX0 --token QnJpbmdpbmcgaW5kdXN0cmlhbCBzYWZldHkgYW5kIGF1dG9tYXRpb24gdG8gdGhlIGVkZ2Uu" sh -
