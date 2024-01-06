@@ -1,7 +1,7 @@
 variable "master_instance_name" {
   description = "Value of the Name tag for the EC2 master instance"
   type        = string
-  default     = "master_instance"
+  default     = "master_1_instance"
 }
 
 variable "worker_1_instance_name" {
