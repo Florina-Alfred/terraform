@@ -35,7 +35,7 @@ resource "aws_instance" "worker_1_server" {
                                 # echo "Hello, Master" > index.html
                                 # nohup busybox httpd -f -p ${var.server_port} &
 
-                                sudo hostnamectl set-hostname ${var.master_instance_name}
+                                sudo hostnamectl set-hostname ${var.worker_1_instance_name}
 				                curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/unix/setup.sh > setup.sh
                 				sudo bash setup.sh
 				                sudo reboot
@@ -59,7 +59,7 @@ resource "aws_instance" "worker_1_server" {
 #                                 # echo "Hello, Master" > index.html
 #                                 # nohup busybox httpd -f -p ${var.server_port} &
 #
-#                                 sudo hostnamectl set-hostname ${var.master_instance_name}
+#                                 sudo hostnamectl set-hostname ${var.worker_2_instance_name}
 # 				                curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/unix/setup.sh > setup.sh
 #                 				sudo bash setup.sh
 # 				                sudo reboot

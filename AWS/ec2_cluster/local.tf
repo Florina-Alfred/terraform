@@ -4,7 +4,6 @@ resource "local_file" "ansible_inventory_list" {
 [servers]
 ${aws_instance.master_server.public_ip}
 ${aws_instance.worker_1_server.public_ip}
-${aws_instance.worker_2_server.public_ip}
   EOT
   filename = "${var.ansible_inventory_path}/generated_inventroy"
 }
