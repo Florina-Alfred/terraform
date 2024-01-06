@@ -20,6 +20,7 @@ resource "aws_instance" "app_server" {
   private_ip                  = "172.31.24.101"
   user_data                   = <<-EOF
 #!/bin/bash
+sudo hostnamectl set-hostname ${var.instance_name}
 #curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/setup.sh > setup.sh
 #sudo bash setup.sh
 #sudo reboot
