@@ -20,7 +20,7 @@ variable "ssh_key" {
   description = "ssh on local computer"
   type        = string
   # default     = file("/home/user/.ssh/id_ed25519.pub")
-  default     = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICBpcGmCeAI3dzTHegsN3yH4oJ+x3TfjB3iZTC4F5Pcu user@server"
+  default = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICBpcGmCeAI3dzTHegsN3yH4oJ+x3TfjB3iZTC4F5Pcu user@server"
 }
 
 variable "ssh_port" {

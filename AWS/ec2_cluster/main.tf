@@ -1,8 +1,8 @@
 resource "aws_instance" "master_server" {
-  ami                         = "ami-09e03e6bd1ff7ec01"
-  instance_type               = "t2.micro"
-  vpc_security_group_ids      = [aws_security_group.cluster_security_group.id]
-  subnet_id                   = aws_subnet.cluster_public_subnet.id
+  ami                    = "ami-09e03e6bd1ff7ec01"
+  instance_type          = "t2.micro"
+  vpc_security_group_ids = [aws_security_group.cluster_security_group.id]
+  subnet_id              = aws_subnet.cluster_public_subnet.id
   # key_name                    = file("/home/user/.ssh/id_ed25519.pub")
   key_name                    = aws_key_pair.ssh_key.key_name
   private_ip                  = "10.0.10.101"
