@@ -20,11 +20,11 @@ resource "aws_instance" "app_server" {
   private_ip                  = "172.31.24.101"
   user_data                   = <<-EOF
 #!/bin/bash
-curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/setup.sh > setup.sh
-sudo bash setup.sh
-sudo reboot
-# curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
-# nohup busybox httpd -f -p 8080 &
+#curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/setup.sh > setup.sh
+#sudo bash setup.sh
+#sudo reboot
+curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
+nohup busybox httpd -f -p 8080 &
 EOF
   user_data_replace_on_change = true
   tags = {

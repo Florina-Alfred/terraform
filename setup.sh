@@ -20,10 +20,12 @@ sudo usermod -aG docker $USER
 # install K3S Master
 export server_name=$(hostname)
 
-if [[ ${var.instance_name} == master1* ]]
+if [[ master1* == master1* ]]
 then
     echo "Inital Master"
     curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --write-kubeconfig-mode 644 --node-ip 172.31.24.101 --node-external-ip 172.31.24.101 --flannel-iface enX0 --token QnJpbmdpbmcgaW5kdXN0cmlhbCBzYWZldHkgYW5kIGF1dG9tYXRpb24gdG8gdGhlIGVkZ2Uu" sh -
+    mkdir ~/.kube
+    cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
 elif [[ ${var.instance_name} == master* ]]
 then
     echo "Additional Master"
@@ -31,13 +33,11 @@ else
     echo "Worker"
 fi
 
-mkdir ~/.kube
-cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
 
 # install helm
 curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 helm repo add prometheus-repo https://prometheus-community.github.io/helm-charts
-hlem install prometheus-repo/kube-prometheus-stack
+helm install prometheus-repo/kube-prometheus-stack
 
 
 # install k3s (master/worker)
