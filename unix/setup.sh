@@ -8,7 +8,7 @@ DEBIAN_FRONTEND=noninteractive apt install -y git curl wget vim neofetch tree ne
 
 # get the network interface
 export network_interface=$(ls /sys/class/net | grep en)
-export private_ip=$(ip -f inet addr show $(network_interface) | awk '/inet / {print $2}')
+export private_ip=$(ip -f inet addr show $network_interface | awk '/inet / {print $2}')
 echo "Network interface: $network_interface"
 echo "Private IP: $private_ip"
 
