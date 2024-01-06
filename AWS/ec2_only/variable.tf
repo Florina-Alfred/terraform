@@ -17,13 +17,50 @@ variable "ssh_port" {
 }
 
 variable "wg_port" {
-  description = "The port the wg server will use for tcp requests"
+  description = "Port for WG server requests"
   type        = number
   default     = 51821
 }
 
 variable "kubectl_port" {
-  description = "The port the server will use for HTTP requests"
+  description = "Port for kubectl requests"
   type        = number
   default     = 6443
 }
+
+variable "http_port" {
+  description = "Port for HTTP access"
+  type        = number
+  default     = 80
+}
+
+variable "https_port" {
+  description = "Port for HTTPS access"
+  type        = number
+  default     = 443
+}
+
+variable "lb_http_port" {
+  description = "Port for HTTP access (load-balancer/Traefik)"
+  type        = number
+  default     = 8000
+}
+
+variable "lb_https_port" {
+  description = "Port for HTTPS access (load-balancer/Traefik)"
+  type        = number
+  default     = 8443
+}
+
+variable "lb_metrics_port" {
+  description = "Port for LB metrics access"
+  type        = number
+  default     = 9100
+}
+
+variable "lb_traefik_port" {
+  description = "Port for accessing Traefik dashboard"
+  type        = number
+  default     = 9000
+}
+

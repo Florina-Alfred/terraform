@@ -14,10 +14,10 @@ provider "aws" {
 
 resource "aws_instance" "app_server" {
   ami                         = "ami-09e03e6bd1ff7ec01"
-  instance_type               = "t2.micro"
+  instance_type               = "t2.medium"
   vpc_security_group_ids      = [aws_security_group.instance.id]
   key_name                    = aws_key_pair.ssh_key.key_name
-  private_ip                  = "172.31.10.101"
+  private_ip                  = "172.31.24.101"
   user_data                   = <<-EOF
 #!/bin/bash
 curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/setup.sh > setup.sh
@@ -49,6 +49,42 @@ resource "aws_security_group" "instance" {
   ingress {
     from_port   = var.kubectl_port
     to_port     = var.kubectl_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = var.http_port
+    to_port     = var.http_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = var.https_port
+    to_port     = var.https_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = var.lb_http_port
+    to_port     = var.lb_http_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = var.lb_https_port
+    to_port     = var.lb_https_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = var.lb_metrics_port
+    to_port     = var.lb_metrics_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = var.lb_traefik_port
+    to_port     = var.lb_traefik_port
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
