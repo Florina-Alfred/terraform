@@ -14,7 +14,7 @@ provider "aws" {
 
 resource "aws_instance" "app_server" {
   ami                         = "ami-09e03e6bd1ff7ec01"
-  instance_type               = "t2.micro"
+  instance_type               = "t2.nano"
   vpc_security_group_ids      = [aws_security_group.instance.id]
   key_name                    = aws_key_pair.ssh_key.key_name
   private_ip                  = "172.31.10.101"
