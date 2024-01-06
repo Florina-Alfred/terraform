@@ -58,5 +58,3 @@ resource "aws_key_pair" "ssh_key" {
   public_key = var.ssh_key
 }
 
-
-
