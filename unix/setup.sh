@@ -9,6 +9,7 @@ DEBIAN_FRONTEND=noninteractive apt install -y git curl wget vim neofetch tree ne
 # get the network interface
 export network_interface=$(ls /sys/class/net | grep en)
 export private_ip=$(ip -f inet addr show $network_interface | awk '/inet / {print $2}' | awk -F '/' '{print $1}')
+export master_1_private_ip=$(ip -f inet addr show $network_interface | awk '/inet / {print $2}' | awk -F '/' '{print $1}' | awk -F. '{OFS="."; $4="101"; print}')
 echo "Network interface: $network_interface"
 echo "Private IP: $private_ip"
 
@@ -50,7 +51,7 @@ then
     echo "Additional Master"
 else
     echo "Worker"
-    curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="agent --server https://172.31.24.101:6443 --token QnJpbmdpbmcgaW5kdXN0cmlhbCBzYWZldHkgYW5kIGF1dG9tYXRpb24gdG8gdGhlIGVkZ2Uu --node-ip $private_ip --node-external-ip $private_ip --flannel-iface $network_interface" sh -
+    curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="agent --server https://$master_1_private_ip:6443 --token QnJpbmdpbmcgaW5kdXN0cmlhbCBzYWZldHkgYW5kIGF1dG9tYXRpb24gdG8gdGhlIGVkZ2Uu --node-ip $private_ip --node-external-ip $private_ip --flannel-iface $network_interface" sh -
 fi
 
 
