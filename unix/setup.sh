@@ -36,6 +36,7 @@ then
 
     # install helm
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+    sleep 5
     helm repo add prometheus-repo https://prometheus-community.github.io/helm-charts
     helm repo update
     helm install monitoring prometheus-repo/kube-prometheus-stack

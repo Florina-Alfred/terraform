@@ -50,15 +50,13 @@ resource "aws_instance" "worker_2_server" {
   key_name                    = aws_key_pair.ssh_key.key_name
   private_ip                  = "10.0.10.103"
   user_data                   = <<-EOF
-                                #!/bin/bash
-
-                                # echo "Hello, Master" > index.html
-                                # nohup busybox httpd -f -p ${var.server_port} &
-
-                                sudo hostnamectl set-hostname ${var.worker_2_instance_name}
-				                curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/unix/setup.sh > setup.sh
-                				sudo bash setup.sh
-				                sudo reboot
+#!/bin/bash
+sudo hostnamectl set-hostname ${var.worker_2_instance_name}
+curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/unix/setup.sh > setup.sh
+sudo bash setup.sh
+sudo reboot
+# echo "Hello, Master" > index.html
+# nohup busybox httpd -f -p ${var.server_port} &
                                 EOF
   user_data_replace_on_change = true
   tags = {
