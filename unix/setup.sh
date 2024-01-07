@@ -51,6 +51,7 @@ then
 elif [[ $(hostname) == master* ]]
 then
     echo "Additional Master"
+    curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --server https://$master_1_private_ip:6443 --token QnJpbmdpbmcgaW5kdXN0cmlhbCBzYWZldHkgYW5kIGF1dG9tYXRpb24gdG8gdGhlIGVkZ2Uu --node-ip $private_ip --node-external-ip $private_ip --flannel-iface $network_interface" sh -
 else
     echo "Worker"
     curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="agent --server https://$master_1_private_ip:6443 --token QnJpbmdpbmcgaW5kdXN0cmlhbCBzYWZldHkgYW5kIGF1dG9tYXRpb24gdG8gdGhlIGVkZ2Uu --node-ip $private_ip --node-external-ip $private_ip --flannel-iface $network_interface" sh -

@@ -16,6 +16,24 @@ variable "worker_2_instance_name" {
   default     = "worker_2_instance"
 }
 
+variable "worker_3_instance_name" {
+  description = "Value of the Name tag for the EC2 worker_3_instance"
+  type        = string
+  default     = "worker_3_instance"
+}
+
+variable "worker_4_instance_name" {
+  description = "Value of the Name tag for the EC2 worker_4_instance"
+  type        = string
+  default     = "worker_4_instance"
+}
+
+variable "worker_5_instance_name" {
+  description = "Value of the Name tag for the EC2 worker_5_instance"
+  type        = string
+  default     = "worker_5_instance"
+}
+
 variable "ssh_key" {
   description = "ssh on local computer"
   type        = string
