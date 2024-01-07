@@ -4,6 +4,18 @@ variable "master_1_instance_name" {
   default     = "master_1_instance"
 }
 
+variable "master_2_instance_name" {
+  description = "Value of the Name tag for the EC2 master instance"
+  type        = string
+  default     = "master_2_instance"
+}
+
+variable "master_3_instance_name" {
+  description = "Value of the Name tag for the EC2 master instance"
+  type        = string
+  default     = "master_3_instance"
+}
+
 variable "worker_1_instance_name" {
   description = "Value of the Name tag for the EC2 worker 1 instance"
   type        = string

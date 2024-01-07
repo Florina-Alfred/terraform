@@ -20,13 +20,13 @@ resource "aws_instance" "app_server" {
   private_ip                  = "172.31.24.101"
   user_data                   = <<-EOF
 #!/bin/bash
-sudo hostnamectl set-hostname ${var.instance_name}
-curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/unix/setup.sh > /home/ubuntu/setup.sh
-sudo bash /home/ubuntu/setup.sh 
-helm repo add prometheus-repo https://prometheus-community.github.io/helm-charts && helm repo update && helm install monitoring prometheus-repo/kube-prometheus-stack 
-sudo reboot
-# curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
-# nohup busybox httpd -f -p 8080 &
+# sudo hostnamectl set-hostname ${var.instance_name}
+# curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/unix/setup.sh > /home/ubuntu/setup.sh
+# sudo bash /home/ubuntu/setup.sh 
+# helm repo add prometheus-repo https://prometheus-community.github.io/helm-charts && helm repo update && helm install monitoring prometheus-repo/kube-prometheus-stack 
+# sudo reboot
+curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
+nohup busybox httpd -f -p 8080 &
 EOF
   user_data_replace_on_change = true
   tags = {
