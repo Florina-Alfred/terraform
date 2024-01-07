@@ -30,8 +30,9 @@ then
     # install k3s
     # curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --write-kubeconfig-mode 644 --node-ip 10.0.10.101 --node-external-ip 10.0.10.101 --flannel-iface enX0 --token QnJpbmdpbmcgaW5kdXN0cmlhbCBzYWZldHkgYW5kIGF1dG9tYXRpb24gdG8gdGhlIGVkZ2Uu" sh -
     curl -sfL https://get.k3s.io | INSTALL_K3S_EXEC="server --cluster-init --write-kubeconfig-mode 644 --node-ip $private_ip --node-external-ip $private_ip --flannel-iface $network_interface --token QnJpbmdpbmcgaW5kdXN0cmlhbCBzYWZldHkgYW5kIGF1dG9tYXRpb24gdG8gdGhlIGVkZ2Uu" sh -
-    mkdir ~/.kube
-    cp /etc/rancher/k3s/k3s.yaml ~/.kube/config
+    sleep 3
+    mkdir /home/ubuntu/.kube
+    cp /etc/rancher/k3s/k3s.yaml /home/ubuntu/.kube/config
 
     # install helm
     curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
