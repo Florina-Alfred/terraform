@@ -104,9 +104,8 @@ resource "aws_security_group" "instance" {
 }
 
 resource "aws_key_pair" "ssh_key" {
-  key_name   = "ssh_key_value"
-  # public_key = file("/home/user/.ssh/id_ed25519.pub")
-  public_key = var.ssh_key
+  key_name = "ssh_key_value"
+  public_key = file("/home/user/.ssh/id_ed25519.pub")
 }
 
 output "instance_id" {

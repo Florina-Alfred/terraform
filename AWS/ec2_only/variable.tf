@@ -4,11 +4,11 @@ variable "instance_name" {
   default     = "master_1_instance"
 }
 
-variable "ssh_key" {
-  description = "ssh on local computer"
-  type        = string
-  default     = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAICBpcGmCeAI3dzTHegsN3yH4oJ+x3TfjB3iZTC4F5Pcu user@server"
-}
+# variable "ssh_key" {
+#   description = "ssh on local computer"
+#   type        = string
+#   default     = "ssh-x xxx user@server"
+# }
 
 variable "ssh_port" {
   description = "ssh key for local machine"
@@ -64,10 +64,9 @@ variable "lb_traefik_port" {
   default     = 9000
 }
 
-
 variable "tester" {
-    description = "tester"
-        type        = number
-        default     = 1232
+  description = "tester"
+  type        = number
+  default     = 1232
 }
 

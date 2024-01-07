@@ -66,6 +66,6 @@ sudo reboot
 
 resource "aws_key_pair" "ssh_key" {
   key_name   = "ssh_key_value"
-  public_key = var.ssh_key
+  public_key = file("/home/user/.ssh/id_ed25519.pub")
 }
 
