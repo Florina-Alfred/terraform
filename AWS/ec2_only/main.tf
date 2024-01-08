@@ -12,6 +12,7 @@ provider "aws" {
   region = "us-east-2"
 }
 
+
 resource "aws_instance" "app_server" {
   ami                         = "ami-09e03e6bd1ff7ec01"
   instance_type               = "t2.medium"
@@ -25,8 +26,9 @@ resource "aws_instance" "app_server" {
 # sudo bash /home/ubuntu/setup.sh 
 # helm repo add prometheus-repo https://prometheus-community.github.io/helm-charts && helm repo update && helm install monitoring prometheus-repo/kube-prometheus-stack 
 # sudo reboot
-curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
-nohup busybox httpd -f -p 8080 &
+# curl https://raw.githubusercontent.com/Florina-Alfred/terraform/main/test.html > index.html
+echo "master 1" > index.html
+nohup busybox httpd -f -p 1232 &
 EOF
   user_data_replace_on_change = true
   tags = {

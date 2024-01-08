@@ -21,6 +21,24 @@ resource "aws_security_group" "cluster_security_group" {
     cidr_blocks = ["0.0.0.0/0"]
   }
   ingress {
+    from_port   = var.master_communication_1_port
+    to_port     = var.master_communication_1_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = var.master_communication_2_port
+    to_port     = var.master_communication_2_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
+    from_port   = var.kubelet_metrics_port
+    to_port     = var.kubelet_metrics_port
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  ingress {
     from_port   = var.server_port
     to_port     = var.server_port
     protocol    = "tcp"

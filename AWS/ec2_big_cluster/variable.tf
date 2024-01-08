@@ -65,6 +65,24 @@ variable "kubectl_port" {
   default     = 6443
 }
 
+variable "master_communication_1_port" {
+  description = "The port kubectl will use for controlling the cluster"
+  type        = number
+  default     = 2379
+}
+
+variable "master_communication_2_port" {
+  description = "The port kubectl will use for controlling the cluster"
+  type        = number
+  default     = 2380
+}
+
+variable "kubelet_metrics_port" {
+  description = "The port the wg server will use for tcp requests"
+  type        = number
+  default     = 10250
+}
+
 variable "wg_port" {
   description = "The port the wg server will use for tcp requests"
   type        = number
